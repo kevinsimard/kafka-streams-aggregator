@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Properties;
 
 class Aggregator {
+
     private static final String KAFKA_SERVERS = "localhost:9092";
 
     private static final Serde<JsonNode> JSON_SERDE = Serdes.serdeFrom(
