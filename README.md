@@ -4,13 +4,11 @@
 
     ├── src
     │   └── main
-    │       ├── java
-    │       │   └── com
-    │       │       └── kevinsimard
-    │       │           └── stream
-    │       │               └── Aggregator.java
-    │       └── resources
-    │           └── log4j.properties
+    │       └── java
+    │           └── com
+    │               └── kevinsimard
+    │                   └── stream
+    │                       └── Aggregator.java
     ├── .editorconfig
     ├── .gitattributes
     ├── .gitignore
