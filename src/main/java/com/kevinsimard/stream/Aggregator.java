@@ -27,13 +27,9 @@ class Aggregator {
     private static List<String> processedMessages = new ArrayList<>();
 
     public static void main(String[] args) {
-        KafkaStreams streams = createStreams(
-            buildStreams(), "stream"
-        );
+        KafkaStreams streams = createStreams(buildStreams(), "stream");
 
-        Runtime.getRuntime().addShutdownHook(
-            new Thread(streams::close)
-        );
+        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
 
         streams.start();
     }
@@ -99,10 +95,7 @@ class Aggregator {
 
     private static JsonNode aggregateValues(String key, JsonNode value, JsonNode previous) {
         if (previous != null) {
-            ((ObjectNode) value).put("total",
-                previous.get("total").asDouble() +
-                    value.get("total").asDouble()
-            );
+            ((ObjectNode) value).put("total", previous.get("total").asDouble() + value.get("total").asDouble());
         }
 
         return value;
