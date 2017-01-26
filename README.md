@@ -31,7 +31,7 @@ $ kafka-topics --zookeeper localhost --create --partitions 4 --replication-facto
 $ kafka-topics --zookeeper localhost --create --partitions 4 --replication-factor 1 --topic stream-aggregated-interm-changelog
 ```
 
-Run `$ java -jar ./target/kafka-streams-aggregation-0.1.0-jar-with-dependencies.jar` to run the application.
+Run `$ java -jar ./target/kafka-streams-aggregation-1.0-SNAPSHOT-jar-with-dependencies.jar` to run the application.
 
 Use the Kafka console producer tool to test the application.
 
