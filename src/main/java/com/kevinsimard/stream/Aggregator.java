@@ -27,21 +27,17 @@ class Aggregator {
     private static List<String> processedMessages = new ArrayList<>();
 
     public static void main(String[] args) {
-        KafkaStreams streams = createStreams(buildStreams(), "stream");
+        Properties properties = new Properties();
+        properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_SERVERS);
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "aggregator");
+        properties.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 0);
+
+        KafkaStreams streams = new KafkaStreams(buildStreams(), properties);
 
         Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
 
         streams.start();
-    }
-
-    private static KafkaStreams createStreams(KStreamBuilder builder, String groupId) {
-        Properties properties = new Properties();
-        properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_SERVERS);
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "smallest");
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, groupId);
-        properties.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 0);
-
-        return new KafkaStreams(builder, properties);
     }
 
     private static KStreamBuilder buildStreams() {
@@ -65,10 +61,12 @@ class Aggregator {
         return builder;
     }
 
+    @SuppressWarnings("unused")
     private static void markAsProcessedInCache(String key, JsonNode value) {
         processedMessages.add(uniqueHashForMessage(value));
     }
 
+    @SuppressWarnings("unused")
     private static void markAsProcessedInDatastore(String key, JsonNode value) {
         // TODO: Save the generated hash in datastore.
 
@@ -89,10 +87,12 @@ class Aggregator {
         return isProcessed;
     }
 
+    @SuppressWarnings("unused")
     private static String groupByUserId(String key, JsonNode value) {
         return value.get("user_id").asText();
     }
 
+    @SuppressWarnings("unused")
     private static JsonNode aggregateValues(String key, JsonNode value, JsonNode previous) {
         if (previous != null) {
             ((ObjectNode) value).put("total", previous.get("total").asDouble() + value.get("total").asDouble());
