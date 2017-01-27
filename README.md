@@ -16,9 +16,7 @@
     ├── pom.xml
     └── README.md
 
-## Installation
-
-Run `$ mvn package` to build the JAR file with the dependencies.
+## Usage
 
 Create the required Kafka topics with the following commands.
 
@@ -29,7 +27,7 @@ $ kafka-topics --zookeeper localhost --create --partitions 4 --replication-facto
 $ kafka-topics --zookeeper localhost --create --partitions 4 --replication-factor 1 --topic stream-aggregated-interm-changelog
 ```
 
-Run `$ java -jar ./target/kafka-streams-aggregation-1.0-SNAPSHOT.jar` to run the application.
+Run `$ java compile exec:java` to run the application.
 
 Use the Kafka console producer tool to test the application.
 
@@ -37,17 +35,17 @@ Use the Kafka console producer tool to test the application.
 $ kafka-console-producer --broker-list localhost:9092 --topic sales-raw
 ```
 
-Use the Kafka console consumer tool to view aggregated messages.
-
-```
-$ kafka-console-consumer --bootstrap-server localhost:9092 --from-beginning --topic sales-aggregated
-```
-
 Enter the following message to start aggregating numbers.
 
 ```bash
 # Format: {"user_id":<int>,"sale_id":<int>,"total":<double>}
 {"user_id":1,"sale_id":1,"total":100.00}
+```
+
+Use the Kafka console consumer tool to view aggregated messages.
+
+```
+$ kafka-console-consumer --bootstrap-server localhost:9092 --from-beginning --topic sales-aggregated
 ```
 
 ## License
