@@ -14,24 +14,25 @@ import org.apache.kafka.streams.kstream.KStreamBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 class Aggregator {
 
-    private static final String KAFKA_SERVERS = "localhost:9092";
+    private static final String KAFKA_HOSTS =
+        Optional.of(System.getenv("KAFKA_HOSTS")).orElse("localhost:9092");
 
-    private static final Serde<JsonNode> JSON_SERDE = Serdes.serdeFrom(
-        new JsonSerializer(), new JsonDeserializer()
-    );
+    private static final Serde<JsonNode> JSON_SERDE =
+        Serdes.serdeFrom(new JsonSerializer(), new JsonDeserializer());
 
     private static List<String> processedMessages = new ArrayList<>();
 
     public static void main(String[] args) {
         Properties properties = new Properties();
-        properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_SERVERS);
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "aggregator");
         properties.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 0);
+        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "aggregator");
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOSTS);
 
         KafkaStreams streams = new KafkaStreams(buildStreams(), properties);
 
@@ -43,15 +44,13 @@ class Aggregator {
     private static KStreamBuilder buildStreams() {
         KStreamBuilder builder = new KStreamBuilder();
 
-        KStream<String, JsonNode> salesAggregated = builder.stream(
-            Serdes.String(), JSON_SERDE, "sales-aggregated"
-        );
+        KStream<String, JsonNode> salesAggregated =
+            builder.stream(Serdes.String(), JSON_SERDE, "sales-aggregated");
 
         salesAggregated.foreach(Aggregator::markAsProcessedInDatastore);
 
-        KStream<String, JsonNode> salesRaw = builder.stream(
-            Serdes.String(), JSON_SERDE, "sales-raw"
-        );
+        KStream<String, JsonNode> salesRaw =
+            builder.stream(Serdes.String(), JSON_SERDE, "sales-raw");
 
         salesRaw.filterNot(Aggregator::isAlreadyProcessed)
             .groupBy(Aggregator::groupByUserId, Serdes.String(), JSON_SERDE)
@@ -77,12 +76,9 @@ class Aggregator {
     private static Boolean isAlreadyProcessed(String key, JsonNode value) {
         // TODO: Also check in datastore if not found in cache.
 
-        Boolean isProcessed = processedMessages.indexOf(
-            uniqueHashForMessage(value)) != -1;
+        Boolean isProcessed = processedMessages.indexOf(uniqueHashForMessage(value)) != -1;
 
-        if (! isProcessed) {
-            markAsProcessedInCache(key, value);
-        }
+        if (! isProcessed) markAsProcessedInCache(key, value);
 
         return isProcessed;
     }
