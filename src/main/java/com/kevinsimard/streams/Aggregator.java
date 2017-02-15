@@ -1,4 +1,4 @@
-package com.kevinsimard.stream;
+package com.kevinsimard.streams;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;

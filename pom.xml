@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.kevinsimard.stream-aggregation</groupId>
-    <artifactId>kafka-streams-aggregation</artifactId>
+    <groupId>com.kevinsimard.streams</groupId>
+    <artifactId>streams-aggregation</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -47,7 +47,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.5.0</version>
                 <configuration>
-                    <mainClass>com.kevinsimard.stream.Aggregator</mainClass>
+                    <mainClass>com.kevinsimard.streams.Aggregator</mainClass>
                 </configuration>
             </plugin>
         </plugins>

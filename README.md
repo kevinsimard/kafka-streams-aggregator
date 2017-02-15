@@ -7,7 +7,7 @@
     │       └── java
     │           └── com
     │               └── kevinsimard
-    │                   └── stream
+    │                   └── streams
     │                       └── Aggregator.java
     ├── .editorconfig
     ├── .gitattributes
