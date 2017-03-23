@@ -12,9 +12,9 @@
     ├── .editorconfig
     ├── .gitattributes
     ├── .gitignore
-    ├── LICENSE.txt
-    ├── pom.xml
-    └── README.md
+    ├── LICENSE.md
+    ├── README.md
+    └── pom.xml
 
 ## Usage
 
