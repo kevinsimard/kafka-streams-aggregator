@@ -28,13 +28,13 @@ class Aggregator {
     private static List<String> processedMessages = new ArrayList<>();
 
     public static void main(String[] args) {
-        Properties properties = new Properties();
-        properties.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 0);
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "aggregator");
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOSTS);
+        Properties props = new Properties();
+        props.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 0);
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "aggregator");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOSTS);
 
-        KafkaStreams streams = new KafkaStreams(buildStreams(), properties);
+        KafkaStreams streams = new KafkaStreams(buildStreams(), props);
 
         Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
 
