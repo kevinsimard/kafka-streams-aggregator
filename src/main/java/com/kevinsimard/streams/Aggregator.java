@@ -25,7 +25,7 @@ class Aggregator {
     private static final Serde<JsonNode> JSON_SERDE =
         Serdes.serdeFrom(new JsonSerializer(), new JsonDeserializer());
 
-    private static List<String> processedMessages = new ArrayList<>();
+    private static final List<String> processedMessages = new ArrayList<>();
 
     public static void main(String[] args) {
         Properties props = new Properties();
