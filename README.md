@@ -1,4 +1,4 @@
-# Kafka Streams Aggregation Example
+# Kafka Streams Aggregator
 
 ## Code Structure
 
@@ -7,8 +7,9 @@
     │       └── java
     │           └── com
     │               └── kevinsimard
-    │                   └── streams
-    │                       └── Aggregator.java
+    │                   └── kafka
+    │                       └── streams
+    │                           └── Aggregator.java
     ├── .editorconfig
     ├── .gitattributes
     ├── .gitignore
@@ -18,16 +19,14 @@
 
 ## Usage
 
-Create the required Kafka topics with the following commands.
+Create Kafka topics with the following commands.
 
 ```
-$ kafka-topics --zookeeper localhost --create --partitions 4 --replication-factor 1 --topic sales-raw
-$ kafka-topics --zookeeper localhost --create --partitions 4 --replication-factor 1 --topic sales-aggregated
-$ kafka-topics --zookeeper localhost --create --partitions 4 --replication-factor 1 --topic stream-aggregated-interm-repartition
-$ kafka-topics --zookeeper localhost --create --partitions 4 --replication-factor 1 --topic stream-aggregated-interm-changelog
+$ kafka-topics --zookeeper localhost --create --partitions 1 --replication-factor 1 --topic sales-raw
+$ kafka-topics --zookeeper localhost --create --partitions 1 --replication-factor 1 --topic sales-aggregated
 ```
 
-Run `$ java compile exec:java` to run the application.
+Run `$ java -jar target/kafka-streams-aggregator-1.0.0.jar` to run the application.
 
 Use the Kafka console producer tool to test the application.
 
