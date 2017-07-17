@@ -26,7 +26,7 @@ $ kafka-topics --zookeeper localhost --create --partitions 1 --replication-facto
 $ kafka-topics --zookeeper localhost --create --partitions 1 --replication-factor 1 --topic sales-aggregated
 ```
 
-Run `$ java -jar target/kafka-streams-aggregator-1.0.0.jar` to run the application.
+Run `mvn compile exec:java` to run the application.
 
 Use the Kafka console producer tool to test the application.
 
