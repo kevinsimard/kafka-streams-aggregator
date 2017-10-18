@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-class Aggregator {
+public class Aggregator {
 
     private static final String KAFKA_HOSTS =
         Optional.of(System.getenv("KAFKA_HOSTS")).orElse("localhost:9092");
