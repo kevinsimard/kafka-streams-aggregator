@@ -62,7 +62,9 @@ public class Aggregator {
 
     @SuppressWarnings("unused")
     private static void markAsProcessedInCache(String key, JsonNode value) {
-        processedMessages.add(uniqueHashForMessage(value));
+        String hash = uniqueHashForMessage(value);
+
+        processedMessages.add(hash);
     }
 
     @SuppressWarnings("unused")
@@ -76,7 +78,8 @@ public class Aggregator {
     private static Boolean isAlreadyProcessed(String key, JsonNode value) {
         // TODO: Also check in datastore if not found in cache.
 
-        Boolean isProcessed = processedMessages.indexOf(uniqueHashForMessage(value)) != -1;
+        String hash = uniqueHashForMessage(value);
+        Boolean isProcessed = processedMessages.indexOf(hash) != -1;
 
         if (! isProcessed) markAsProcessedInCache(key, value);
 
@@ -91,7 +94,9 @@ public class Aggregator {
     @SuppressWarnings("unused")
     private static JsonNode aggregateValues(String key, JsonNode value, JsonNode previous) {
         if (previous != null) {
-            ((ObjectNode) value).put("total", previous.get("total").asDouble() + value.get("total").asDouble());
+            ((ObjectNode) value).put("total",
+                previous.get("total").asDouble() +
+                value.get("total").asDouble());
         }
 
         return value;
@@ -99,6 +104,7 @@ public class Aggregator {
 
     private static String uniqueHashForMessage(JsonNode value) {
         // TODO: Replace the following with a hash function.
-        return value.get("user_id").asText() + ":" + value.get("sale_id").asText();
+        return value.get("user_id").asText() +
+            ":" + value.get("sale_id").asText();
     }
 }
