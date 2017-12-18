@@ -25,7 +25,9 @@ public class Aggregator {
     private static final Serde<JsonNode> JSON_SERDE =
         Serdes.serdeFrom(new JsonSerializer(), new JsonDeserializer());
 
-    private static List<String> processedMessages = new ArrayList<>();
+    private static final List<String> processedMessages = new ArrayList<>();
+
+    private final KafkaStreams streams;
 
     public static void main(String[] args) {
         Properties props = new Properties();
@@ -34,14 +36,19 @@ public class Aggregator {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_HOSTS);
 
-        KafkaStreams streams = new KafkaStreams(buildStreams(), props);
+        new Aggregator(props).start();
+    }
 
+    public Aggregator(Properties props) {
+        streams = new KafkaStreams(buildStreams(), props);
         Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+    }
 
+    public void start() {
         streams.start();
     }
 
-    private static KStreamBuilder buildStreams() {
+    private KStreamBuilder buildStreams() {
         KStreamBuilder builder = new KStreamBuilder();
 
         KStream<String, JsonNode> salesAggregated =
@@ -95,8 +102,7 @@ public class Aggregator {
     private static JsonNode aggregateValues(String key, JsonNode value, JsonNode previous) {
         if (previous != null) {
             ((ObjectNode) value).put("total",
-                previous.get("total").asDouble() +
-                value.get("total").asDouble());
+                previous.get("total").asDouble() + value.get("total").asDouble());
         }
 
         return value;
@@ -104,7 +110,6 @@ public class Aggregator {
 
     private static String uniqueHashForMessage(JsonNode value) {
         // TODO: Replace the following with a hash function.
-        return value.get("user_id").asText() +
-            ":" + value.get("sale_id").asText();
+        return value.get("user_id").asText() + ":" + value.get("sale_id").asText();
     }
 }
