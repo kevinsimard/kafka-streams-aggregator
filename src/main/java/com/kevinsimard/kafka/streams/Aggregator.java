@@ -67,14 +67,12 @@ public class Aggregator {
         return builder;
     }
 
-    @SuppressWarnings("unused")
     private static void markAsProcessedInCache(String key, JsonNode value) {
         String hash = uniqueHashForMessage(value);
 
         processedMessages.add(hash);
     }
 
-    @SuppressWarnings("unused")
     private static void markAsProcessedInDatastore(String key, JsonNode value) {
         // TODO: Save the generated hash in datastore.
 
@@ -93,12 +91,10 @@ public class Aggregator {
         return isProcessed;
     }
 
-    @SuppressWarnings("unused")
     private static String groupByUserId(String key, JsonNode value) {
         return value.get("user_id").asText();
     }
 
-    @SuppressWarnings("unused")
     private static JsonNode aggregateValues(String key, JsonNode value, JsonNode previous) {
         if (previous != null) {
             ((ObjectNode) value).put("total",
