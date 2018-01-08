@@ -106,6 +106,6 @@ public class Aggregator {
 
     private static String uniqueHashForMessage(JsonNode value) {
         // TODO: Replace the following with a hash function.
-        return value.get("user_id").asText() + ":" + value.get("sale_id").asText();
+        return String.format("%s:%s", value.get("user_id").asText(), value.get("sale_id").asText());
     }
 }
