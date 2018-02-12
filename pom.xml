@@ -28,7 +28,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>com.kevinsimard.kafka.streams.Aggregator</mainClass>
+                    <mainClass>com.kevinsimard.kafka.streams.Application</mainClass>
                     <classpathScope>compile</classpathScope>
                 </configuration>
             </plugin>

@@ -9,7 +9,7 @@
     │               └── kevinsimard
     │                   └── kafka
     │                       └── streams
-    │                           └── Aggregator.java
+    │                           └── Application.java
     ├── .editorconfig
     ├── .gitattributes
     ├── .gitignore
